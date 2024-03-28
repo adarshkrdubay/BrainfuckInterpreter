@@ -1,5 +1,6 @@
 import argparse
 
+import sys
 class BrainfuckInterpreter:
     def __init__(self):
         # Initialize memory tape with 30,000 cells, pointer, and instruction pointer
@@ -9,14 +10,12 @@ class BrainfuckInterpreter:
         self.input_buffer = []  # Buffer for input characters
         self.output_buffer = []  # Buffer for output characters
 
-    def execute(self, code=None, input_text=None):
+    def execute(self, code=None):
         # If no code is provided, return an error message
         if code is None:
             return "No Brainfuck code provided."
 
         # If input text is provided, store it in the input buffer
-        if input_text:
-            self.input_buffer = list(input_text)
 
         # Reset memory, pointers, and output buffer
         self.memory = [0] * 30000
@@ -75,7 +74,7 @@ if __name__ == "__main__":
     # Command line arguments parsing
     parser = argparse.ArgumentParser(description='Brainfuck Interpreter')
     parser.add_argument('-f', '--file', help='Path to Brainfuck code file')
-    parser.add_argument('-t', '--text', help='Input text for the Brainfuck program')
+    parser.add_argument('-c', '--code', help='Input Brainfuck code')
     args = parser.parse_args()
 
     # Initialize the interpreter
@@ -85,13 +84,13 @@ if __name__ == "__main__":
     if args.file:
         with open(args.file, 'r') as file:
             code = file.read()
-    elif args.text:
-            code = args.text
+    elif args.code:
+        code=args.code
     else:
-        code = ""
+        print("No input detected ")
+        sys.exit()
 
-    # Execute the Brainfuck code with provided input text
-    output = interpreter.execute(code, input_text="")
+    output = interpreter.execute(code )
     
     # Print the output
     if output:
